@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import debug_toolbar
+from taskapp.views import taskView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('taskapp/', include('taskapp.urls')),
+    path('taskapp/', taskView),
+    # path('taskapp/', include('taskapp.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
