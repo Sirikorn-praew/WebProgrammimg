@@ -111,8 +111,9 @@
     </style>
   </head>
   <body>
+    <p id="list_task"></p>
     <div id="myDIV" class="header">
-      <h2 style="margin: 5px">Meow Task</h2>
+      <h2 style="margin: 5px">Task App</h2>
       <input type="text" id="myInput" placeholder="what to do :)" />
       <span onclick="newElement()" class="addBtn">+</span>
     </div>
@@ -165,6 +166,10 @@
         var li = document.createElement("li");
         var inputValue = document.getElementById("myInput").value;
         var t = document.createTextNode(inputValue);
+        const List_Task = ["ppppppppppppppp"];
+        List_Task.push(toString(li));
+        document.getElementById("list_task").innerHTML = List_Task;
+
         li.appendChild(t);
         if (inputValue === "") {
           alert("You must write something!");
