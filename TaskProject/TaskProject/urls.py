@@ -20,7 +20,7 @@ from taskapp.views import taskView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('taskapp/', taskView),
-    # path('taskapp/', include('taskapp.urls')),
+    # path('taskapp/', taskView),
+    path('taskapp/', include('taskapp.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
 ]

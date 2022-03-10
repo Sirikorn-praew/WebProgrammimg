@@ -3,6 +3,6 @@ from . import views
 
 #URLConf
 urlpatterns = [
-    # path('taskhome/', views.taskView),
-    path('addTask/', views.addTask), 
+    path('taskhome/', views.taskView),
+    # path('addTask/', views.addTask), 
 ]

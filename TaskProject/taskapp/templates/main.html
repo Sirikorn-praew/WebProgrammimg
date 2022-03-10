@@ -94,7 +94,8 @@
       .addBtn {
         padding: 3px;
         width: 5%;
-        border-radius: 5px;
+        height: 50%;
+        border-radius: 2px;
         background: #2c1c1c;
         color: rgb(255, 242, 219);
         float: left;
@@ -120,16 +121,16 @@
     <!-- <p id="list_task"></p> -->
     <div id="myDIV" class="header">
       <h2 style="margin: 5px">Task App</h2>
-      <form action="/addTask/" method="post">
+      <form action="" method="POST">
         {% csrf_token %}
         <input
           type="text"
           id="title"
-          placeholder="what to do :)"
           name="title"
+          placeholder="what to do :)"
           required
         />
-        <span name="taskAdd" class="addBtn" type="submit">+</span>
+        <button name="addTask" class="addBtn" type="submit">+</button>
         <!-- onclick="newElement()" -->
       </form>
     </div>
@@ -137,89 +138,104 @@
     <ul id="myUL">
       <!-- <li>Hit the gym</li>
       <li class="checked">Pay bills</li>
-      <li>task1</li>
-      <li>task2</li>
-      <li>task3</li>
       <li>task4</li> -->
       {% for task in tasks %}
       <!-- django template lang - for loop -->
-      <li>
-        <!-- <input
-          type="checkbox"
-          class="taskCheckbox"
-          name="checkedbox"
-          id="{{ task.id }}"
-          value="{{ task.id }}"
-        /> -->
-        {{ task.title }}
-      </li>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <li
+          name="checkbox"
+          id="{{ todo.id }}"
+          class="{{task.checkbox}}"
+          type="submit"
+          onclick="checked()"
+        >
+          <!-- <input
+                type="checkbox"
+                class="taskCheckbox"
+                name="checkedbox"
+                id="{{ task.id }}"
+                value="{{ task.id }}"
+              /> -->
+          {{ task.title }}
+          <button
+            class="close"
+            name="deleteTask"
+            type="submit"
+            value="{{task.id}}"
+          >
+            x
+          </button>
+        </li>
+      </form>
       {% endfor %}
     </ul>
 
     <script>
       // Create a "close" button and append it to each list item
-      var myNodelist = document.getElementsByTagName("LI");
-      var i;
-      for (i = 0; i < myNodelist.length; i++) {
-        var span = document.createElement("SPAN");
-        var txt = document.createTextNode("x");
-        span.className = "close";
-        span.appendChild(txt);
-        myNodelist[i].appendChild(span);
-      }
+      // var myNodelist = document.getElementsByTagName("LI");
+      // var i;
+      // for (i = 0; i < myNodelist.length; i++) {
+      //   var span = document.createElement("SPAN");
+      //   var txt = document.createTextNode("x");
+      //   span.className = "close";
+      //   span.appendChild(txt);
+      //   myNodelist[i].appendChild(span);
+      // }
 
-      // Click on a close button to hide the current list item
-      var close = document.getElementsByClassName("close");
-      var i;
-      for (i = 0; i < close.length; i++) {
-        close[i].onclick = function () {
-          var div = this.parentElement;
-          div.style.display = "none";
-        };
-      }
+      // // Click on a close button to hide the current list item
+      // var close = document.getElementsByClassName("close");
+      // var i;
+      // for (i = 0; i < close.length; i++) {
+      //   close[i].onclick = function () {
+      //     var div = this.parentElement;
+      //     div.style.display = "none";
+      //   };
+      // }
 
       // Add a "checked" symbol when clicking on a list item
-      var list = document.querySelector("ul");
-      list.addEventListener(
-        "click",
-        function (ev) {
-          if (ev.target.tagName === "LI") {
-            ev.target.classList.toggle("checked");
-          }
-        },
-        false
-      );
-
-      // Create a new list item when clicking on the "Add" button
-      function newElement() {
-        var li = document.createElement("li");
-        var inputValue = document.getElementById("title").value;
-        var t = document.createTextNode(inputValue);
-        // const List_Task = ["ppppppppppppppp"];
-        // List_Task.push(toString(li));
-        // document.getElementById("list_task").innerHTML = List_Task;
-
-        li.appendChild(t);
-        if (inputValue === "") {
-          alert("You must write something!");
-        } else {
-          document.getElementById("myUL").appendChild(li);
-        }
-        document.getElementById("title").value = "";
-
-        var span = document.createElement("SPAN");
-        var txt = document.createTextNode("x");
-        span.className = "close";
-        span.appendChild(txt);
-        li.appendChild(span);
-
-        for (i = 0; i < close.length; i++) {
-          close[i].onclick = function () {
-            var div = this.parentElement;
-            div.style.display = "none";
-          };
-        }
+      function checked() {
+        var list = document.querySelector("ul");
+        list.addEventListener(
+          "click",
+          function (ev) {
+            if (ev.target.tagName === "LI") {
+              ev.target.classList.toggle("checked");
+            }
+          },
+          false
+        );
       }
+      // Create a new list item when clicking on the "Add" button
+      // function newElement() {
+      //   var li = document.createElement("li");
+      //   var inputValue = document.getElementById("title").value;
+      //   var t = document.createTextNode(inputValue);
+      //   // const List_Task = ["ppppppppppppppp"];
+      //   // List_Task.push(toString(li));
+      //   // document.getElementById("list_task").innerHTML = List_Task;
+
+      //   li.appendChild(t);
+      //   if (inputValue === "") {
+      //     alert("You must write something!");
+      //   } else {
+      //     document.getElementById("myUL").appendChild(li);
+      //   }
+      //   document.getElementById("title").value = "";
+
+      //   var span = document.createElement("SPAN");
+      //   var txt = document.createTextNode("x");
+      //   span.className = "close";
+      //   span.appendChild(txt);
+      //   li.appendChild(span);
+
+      //   for (i = 0; i < close.length; i++) {
+      //     close[i].onclick = function () {
+      //       var div = this.parentElement;
+      //       div.style.display = "none";
+      //     };
+      //   }
+      // }
     </script>
   </body>
 </html>
