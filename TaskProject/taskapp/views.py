@@ -7,6 +7,7 @@ def taskView(request):
     print(request.POST)
     tasks = Task.objects.all()
     if request.method == "POST":
+        print(request.POST)
         if "checkbox" in request.POST:
             checkbox = request.POST["checkbox"]
             task = Task.objects.get(id=int(taskID))
@@ -23,7 +24,7 @@ def taskView(request):
             task = Task.objects.get(id=int(taskID))
             task.delete()
             return HttpResponseRedirect('/taskapp/taskhome/')
-    return render(request, 'main.html', {"tasks":tasks})
+    return render(request, 'Todo-list_edit.html', {"tasks":tasks})
 
 # def addTask(request):
 #     title = request.POST['title']
