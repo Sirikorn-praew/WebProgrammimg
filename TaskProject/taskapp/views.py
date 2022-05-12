@@ -10,8 +10,9 @@ def taskView(request):
         print(request.POST)
         if "checkbox" in request.POST:
             checkbox = request.POST["checkbox"]
-            task = Task.objects.get(id=int(taskID))
-            print(checkbox,taskID)
+            # task = Task.objects.get(id=int(taskID))
+            # Task.objects.values
+            print(checkbox)
             return HttpResponseRedirect('/taskapp/taskhome/')
             # task.checkbox
         if "addTask" in request.POST:
