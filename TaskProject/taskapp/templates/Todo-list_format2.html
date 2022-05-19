@@ -99,6 +99,32 @@
       .input-group-text:hover button {
         right: 0px;
       }
+      .widget-subheading {
+        color: #af2c2c;
+        font-size: 10px;
+      }
+      .widget-content {
+        padding: 1rem;
+        /* flex-direction: row; */
+        /* align-items: center; */
+      }
+
+      .widget-content .widget-content-wrapper {
+        display: flex;
+        flex: 1;
+        position: relative;
+        /* align-items: center; */
+      }
+
+      .widget-content .widget-content-right.widget-content-actions {
+        visibility: hidden;
+        opacity: 0;
+        /* transition: opacity 0.2s; */
+      }
+
+      .widget-content .widget-content-right {
+        margin-left: auto;
+      }
       /* .input-group button {
         font-size: large;
         opacity: 0.6;
@@ -270,7 +296,12 @@
                     type="checkbox"
                     id="{{ task.id }}"
                   />
-                  <label class="form-check-label"> {{ task.title }} </label>
+
+                  <!-- <label class="form-check-label"> {{ task.title }} </label> -->
+                  <div class="widget-content-left flex2">
+                    <label class="form-check-label">{{ task.title }} </label>
+                    <div class="widget-subheading">dd/mm/yyyy</div>
+                  </div>
                   <button
                     name="deleteTask"
                     type="submit"
@@ -305,7 +336,11 @@
                     type="checkbox"
                     id="{{ task.id }}"
                   />
-                  <label class="form-check-label"> {{ task.title }} </label>
+                  <!-- <label class="form-check-label"> {{ task.title }} </label> -->
+                  <div class="widget-content-left flex2">
+                    <label class="form-check-label">{{ task.title }} </label>
+                    <div class="widget-subheading">dd/mm/yyyy</div>
+                  </div>
                   <button
                     name="deleteTask"
                     type="submit"
