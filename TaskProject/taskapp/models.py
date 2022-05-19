@@ -7,8 +7,8 @@ class Task(models.Model):
     title = models.CharField(max_length=255)
     checkbox = models.BooleanField(default=False)
     # description = models.TextField()
-    duedate = models.DateTimeField(auto_now_add=True) #, default=timezone.now().strftime("%Y-%m-%d %H:%M:%S")
-    created_at = models.DateTimeField(auto_now_add=True) #, default=timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+    duedate = models.DateTimeField(default=timezone.now().strftime("%Y-%m-%d %H:%M:%S")) #, default=timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+    created_at = models.DateTimeField(default=timezone.now().strftime("%Y-%m-%d %H:%M:%S")) #, default=timezone.now().strftime("%Y-%m-%d %H:%M:%S")
     involved = models.ManyToManyField(User, related_name='Involved')
     # involved = models.ForeignKey('User', on_delete=models.SET_NULL, null= True, related_name='Involved')
 

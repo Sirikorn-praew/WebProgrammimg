@@ -1,11 +1,14 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from dateutil.parser import parse
-from .models import Task
+from .models import Task, User
 
 def login_user(request):
+    print(request)
+    print(request.POST)
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -19,7 +22,7 @@ def login_user(request):
             login(request, user)
             messages.info(request, f"You are now logged in as {username}.")
             tasks = user
-            return render(request, 'Todo-list_edit.html', {"tasks":tasks})
+            return HttpResponseRedirect('/taskapp/') 
         else:
             messages.error(request,"Invalid username or password.")
     return render(request, 'login.html')
@@ -59,31 +62,41 @@ def login_user(request):
 #     else:
 #         return HttpResponse("Incorrect user<br><a href=""/"">Get back to home page</a>")
 
+@login_required
 def taskView(request):
     print(request.POST)
-    tasks = Task.objects.all()
+    print(request.user.id)
+    # tasks = Task.objects.all()
+    users = User.objects.all()
+    tasks = Task.objects.filter(user=request.user.id) 
     if request.method == "POST":
         print(request.POST)
         if "checkbox" in request.POST:
             checkbox = request.POST["checkbox"]
-            # task = Task.objects.get(id=int(taskID))
+            task = Task.objects.get(id=int(taskID))
             # Task.objects.values
             print(checkbox)
-            return HttpResponseRedirect('/taskapp/taskhome/')
+            return HttpResponseRedirect('/taskapp/')
             # task.checkbox
         if "addTask" in request.POST:
+            user = request.user
             title = request.POST["title"]
             duedate = parse(request.POST["duedate"])
             print(duedate, type(duedate))
-            task = Task(title=title, duedate=duedate) #duedate=duedate
+            task = Task(title=title, duedate=duedate, user=user) #duedate=duedate
             task.save()
-            return HttpResponseRedirect('/taskapp/taskhome/')
+            return HttpResponseRedirect('/taskapp/')
         if "deleteTask" in request.POST:
             taskID = request.POST["deleteTask"]
             task = Task.objects.get(id=int(taskID))
             task.delete()
-            return HttpResponseRedirect('/taskapp/taskhome/')
-    return render(request, 'Todo-list_edit.html', {"tasks":tasks})
+            return HttpResponseRedirect('/taskapp/')
+    return render(request, 'Todo-list_edit.html', {"tasks":tasks, "users": users})
+
+def log_user_out(request):
+    # Log user out
+    logout(request)
+    return HttpResponse("You've logged out<br><a href=""/"">Get back to login</a>")
 
 # def addTask(request):
 #     title = request.POST['title']

@@ -1,0 +1,187 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">		
+
+	</head>	
+	<body>
+		        <!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+					<a class="navbar-brand" href="#">Smart shop</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+		  
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					  <ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+						  <a class="nav-link" href="/user/{{student.student_university_ID}}" >Home <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<button class="btn btn-success my-2 my-sm-0" type="submit" id="on">
+								สถานะพี่เหน่ง <span class="badge badge-success">ON</span>
+							</button>
+							<button class="btn btn-secondary my-2 my-sm-0" type="submit" id="off">
+								สถานะพี่เหน่ง <span class="badge badge-secondary">OFF</span>
+							</button>
+						</li>
+						
+					    </ul>
+					    <form class="form-inline my-2 my-lg-0">
+							<span class="navbar-text">
+								<a class="btn btn-outline-secondary btn-sm" href="/user/{{student.student_university_ID}}/change_password_user" >Change Password</a>
+								{{student.student_university_ID}}  {{student.name}} {{student.surname}} 
+								<a class="btn btn-success" href="/user/{{student.student_university_ID}}/new" >Create new list</a>
+								<a class="btn btn-danger btn-xs" href="/logout" >Logout</a> 
+							</span>
+					    </form> 
+					</div>
+				  </nav><br>
+		
+		<script type=text/javascript>
+			function getUpdate() {
+				$.getJSON("/status",
+						function (data) {
+							var status = data.status;
+							if(status == '1'){
+								$('#on').show()
+								$('#off').hide()
+							}
+							else{
+								$('#on').hide()
+								$('#off').show()
+							}
+						}
+				);
+			}
+			setInterval('getUpdate()', 100);
+		</script>
+
+		<section id="tabs" class="project-tab">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<nav>
+								<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+									<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">ต้องการยืม</a>
+									<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">ยืม</a>
+									<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">คืน</a>
+								</div>
+							</nav>
+							<div class="tab-content" id="nav-tabContent">
+									<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+											<table class="table" cellspacing="0">
+												<thead>
+													<tr align = "center">
+														<th>วันที่ - เวลา</th>
+														<th>รายละเอียด</th>
+														<th>จำนวน</th>
+														</tr>
+												</thead>
+												<tbody>
+														{% for list in lists %}
+														{% if list.approved_status == 0 and list.returned_status == 0 and list.stored == 0%}
+														<tr>		
+															<td>
+																{{list.last_edited_datetime}}
+															</td>
+															<td></td>
+															<td align = "center">
+																<a href="/user/{{student.student_university_ID}}/{{list.id}}/edit" class="btn btn-warning btn-xs btn-sm" >Edit</a>
+																<a href="/user/{{student.student_university_ID}}/{{list.id}}/delete" class="btn btn-danger btn-xs btn-sm" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+																<a href="/user/{{student.student_university_ID}}/{{list.id}}/share" class="btn btn-info btn-xs btn-sm" ><img src="{{ url_for('static', filename='picture/share1.png') }}"width="21" height="21" alt ="NoIMG"></a>
+															</td>
+														</tr>
+														{% for order in list.orders %}
+														<tr>
+																<td></td>
+															<td>{{order.tool.name}}</td>
+															<td align = "center">{{order.amount}}</td>
+															{% endfor %}
+														</tr>
+														{% endif %}
+													{% endfor %}
+												</tbody>
+											</table>
+										</div>
+								<div class="tab-pane fade " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+									<table class="table" cellspacing="0">
+
+										<thead>
+											<tr align = "center">
+												<th>วันที่ - เวลา</th>
+												<th>รายละเอียด</th>
+												<th>จำนวน</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for list in lists %}
+											{% if list.approved_status == 1 and list.returned_status == 0 and list.stored == 0%}
+											<tr>		
+												<td>
+														{{list.approved_datetime}}
+												</td>
+												<td></td>
+												<td align = "right">
+														<a href="/user/{{student.student_university_ID}}/{{list.id}}/view" class="btn btn-warning btn-xs btn-sm" >View</a>
+												</td>
+											</tr>
+											{% for order in list.orders %}
+											<tr>
+													<td></td>
+												<td>{{order.tool.name}}</td>
+												<td align = "center">{{order.amount}}</td>
+												{% endfor %}
+											</tr>
+											{% endif %}
+										{% endfor %}
+										</tbody>
+									</table>
+								</div>
+								<div class="tab-pane fade " id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+									<table class="table" cellspacing="0">
+										<thead>
+											<tr align = "center">
+												<th>วันที่ - เวลา</th>
+												<th>รายละเอียด</th>
+												<th>จำนวน</th>
+											</tr>
+										</thead>
+										<tbody>
+												{% for list in lists %}
+											{% if list.approved_status == 1 and list.returned_status == 1 and list.stored == 0%}
+											<tr>		
+												<td>
+														{{list.returned_datetime}}
+												</td>
+												<td></td>
+												<td align = "right">
+														<a href="/user/{{student.student_university_ID}}/{{list.id}}/view" class="btn btn-warning btn-xs btn-sm" >View</a>
+												</td>
+											</tr>
+											{% for order in list.orders %}
+											<tr>
+													<td></td>
+												<td>{{order.tool.name}}</td>
+												<td align = "center">{{order.amount}}</td>
+												{% endfor %}
+											</tr>
+											{% endif %}
+										{% endfor %}
+										</tbody>
+									</table>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>	
+
+		</body>
+			
+</html>
