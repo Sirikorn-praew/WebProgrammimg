@@ -49,7 +49,7 @@
       }
       .todo-list {
         margin: 30px auto;
-        max-width: 750px;
+        max-width: 550px;
         width: 100%;
         background-color: #fff;
         border-radius: 15px;
@@ -67,17 +67,13 @@
         overflow: hidden;
         word-wrap: break-word;
       }
-      .Name {
-        color: #4a72aa;
-        font-size: 16px;
-      }
       .inputlist {
         padding: 10px;
         background: linear-gradient(to left, #b9d2e9 10%, #4079bb 80%);
         border-radius: 15px;
       }
       .inputlist_head {
-        max-width: 750px;
+        max-width: 550px;
         width: 100%;
         margin: 10px auto;
         padding: 10px;
@@ -108,29 +104,27 @@
         font-size: 10px;
       }
       .widget-content {
-        /* padding: 1rem; */
-        flex-direction: row;
-        align-items: left;
+        padding: 1rem;
+        /* flex-direction: row; */
+        /* align-items: center; */
       }
-      .widget-left {
-        left: 0px;
-      }
-      /* .widget-content .widget-content-wrapper {
+
+      .widget-content .widget-content-wrapper {
         display: flex;
         flex: 1;
         position: relative;
-        align-items: center;
-      } */
+        /* align-items: center; */
+      }
 
-      /* .widget-content .widget-content-left.widget-content-actions {
+      .widget-content .widget-content-right.widget-content-actions {
         visibility: hidden;
         opacity: 0;
-        transition: opacity 0.2s;
-      } */
+        /* transition: opacity 0.2s; */
+      }
 
-      /* .widget-content .widget-content-left {
+      .widget-content .widget-content-right {
         margin-left: auto;
-      } */
+      }
       /* .input-group button {
         font-size: large;
         opacity: 0.6;
@@ -304,12 +298,10 @@
                   />
 
                   <!-- <label class="form-check-label"> {{ task.title }} </label> -->
-                  <label class="widget-left">test</label>
-                  <div class="widget-subheading">
-                    <label>dd/mm/yyyy 00.00 pm</label>
+                  <div class="widget-content-left flex2">
+                    <label class="form-check-label">{{ task.title }} </label>
+                    <div class="widget-subheading">dd/mm/yyyy</div>
                   </div>
-                  <!-- </div> -->
-                  <!-- </div> -->
                   <button
                     name="deleteTask"
                     type="submit"
@@ -345,14 +337,10 @@
                     id="{{ task.id }}"
                   />
                   <!-- <label class="form-check-label"> {{ task.title }} </label> -->
-                  <div>
-                    <label>When we should go to hang out</label>
-                    <label class="Name">Name</label>
-                    <div class="widget-subheading">
-                      <label>dd/mm/yyyy 00.00 pm</label>
-                    </div>
+                  <div class="widget-content-left flex2">
+                    <label class="form-check-label">{{ task.title }} </label>
+                    <div class="widget-subheading">dd/mm/yyyy</div>
                   </div>
-
                   <button
                     name="deleteTask"
                     type="submit"
