@@ -67,7 +67,7 @@
         overflow: hidden;
         word-wrap: break-word;
       }
-      .Name {
+      .OwnTask {
         color: #4a72aa;
         font-size: 16px;
       }
@@ -84,8 +84,8 @@
         background: linear-gradient(
           to left,
           #35649a 20%,
-          #4079bb 80% /* #bfd8f6 80% */
-        );
+          #4b8bd4 80%
+        ); /* #bfd8f6 80% */
         border-radius: 15px;
       }
       .input-group-text {
@@ -187,11 +187,6 @@
             placeholder="Add new list todo"
             required
           />
-          <div class="input-group-append">
-            <button name="addTask" class="btn btn-primary" type="submit">
-              +
-            </button>
-          </div>
         </div>
         <div class="row">
           <label for="date" style="color: #fff">Due Date</label>
@@ -248,15 +243,22 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <label style="color: #fff">Involved</label>
-          <div class="input-group mb-2">
-            <select name="involved" class="custom-select" multiple>
-              <option selected>select members</option>
-              {% for user in users %}
-              <option value="{{user.id}}">{{ user }}</option>
-              {% endfor %}
-            </select>
+        <div class="form-row align-items-center">
+          <div class="col">
+            <label style="color: #fff">Involved</label>
+            <div class="input-group mb-2">
+              <select name="involved" class="custom-select" multiple>
+                <option selected>select members</option>
+                {% for user in users %}
+                <option value="{{user.id}}">{{ user }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col">
+            <button name="addTask" class="btn btn-primary" type="submit">
+              Add
+            </button>
           </div>
         </div>
       </div>
@@ -307,14 +309,20 @@
               <!-- django template lang - for loop -->
               <li class="todo">
                 <div class="input-group-text">
+                  {% if task.checkbox %}
                   <input
-                    name="checkedbox"
-                    class="form-check-input mt-0"
                     type="checkbox"
-                    id="{{ task.id }}"
+                    class="form-check-input mt-0"
+                    checked
+                    onclick='taskFinish(this,"{{task.id}}")'
                   />
-
-                  <!-- <label class="form-check-label"> {{ task.title }} </label> -->
+                  {% else %}
+                  <input
+                    type="checkbox"
+                    class="form-check-input mt-0"
+                    onclick='taskFinish(this,"{{task.id}}")'
+                  />
+                  {% endif %}
                   <div class="widget-content-left flex2">
                     <label class="form-check-label"> {{ task.title }} </label>
                     <div class="widget-subheading">
@@ -351,30 +359,32 @@
               <!-- django template lang - for loop -->
               <li class="todo">
                 <div class="input-group-text">
+                  {% if task_inv.checkbox %}
                   <input
-                    name="checkedbox"
-                    class="form-check-input mt-0"
                     type="checkbox"
-                    id="{{ task.id }}"
+                    class="form-check-input mt-0"
+                    checked
+                    disabled
                   />
-                  <!-- <label class="form-check-label"> {{ task.title }} </label> -->
+                  {% else %}
+                  <input
+                    type="checkbox"
+                    class="form-check-input mt-0"
+                    disabled
+                  />
+                  {% endif %}
                   <div class="widget-content-left flex2">
                     <label class="form-check-label">
                       {{ task_inv.title }}
                     </label>
+                    <label style="color: gray; font-size: 14px">
+                      Owner Task:
+                    </label>
+                    <label class="OwnTask">{{ task_inv.user }}</label>
                     <div class="widget-subheading">
                       <label> {{ task_inv.duedate }} </label>
                     </div>
                   </div>
-
-                  <button
-                    name="deleteTask"
-                    type="submit"
-                    class="btn btn-danger"
-                    value="{{ task.id }}"
-                  >
-                    delete
-                  </button>
                 </div>
               </li>
               {% endfor %}
@@ -383,6 +393,21 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript" wfd-invisible="true">
+      function taskFinish(element, task) {
+        link = "{% url 'finish-task' %}";
+        $.ajax({
+          type: "POST",
+          url: link,
+          data: {
+            checkbox: element.checked,
+            taskID: task,
+            csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+          },
+          success: function () {},
+        });
+      }
+    </script>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
