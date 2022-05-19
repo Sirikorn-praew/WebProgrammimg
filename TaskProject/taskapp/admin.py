@@ -1,14 +1,13 @@
 from django.contrib import admin
+from .models import Task
+
+# Register your models here.
+# from django.db.models.aggregates import Count
+
 
 # Register your models here.
 
-from django.contrib import admin
-from django.db.models.aggregates import Count
-from . import models
-
-# Register your models here.
-
-# @admin.register(models.Task)
+admin.site.register(Task)
 # class TaskAdmin(admin.ModelAdmin):
 #     list_display = ['title', 'duedate', 'user']
 #     list_editable = ['title']
