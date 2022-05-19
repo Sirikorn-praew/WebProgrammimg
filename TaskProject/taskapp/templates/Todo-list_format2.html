@@ -20,7 +20,8 @@
       src="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/js/tempus-dominus.js"
       crossorigin="anonymous"
     ></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- Tempus Dominus Styles -->
     <link
       href="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/css/tempus-dominus.css"
@@ -67,13 +68,8 @@
         word-wrap: break-word;
       }
       .inputlist {
-
         padding: 10px;
-        background: linear-gradient(
-          to left,
-          #b9d2e9 10%,
-          #4079bb 80%
-        );
+        background: linear-gradient(to left, #b9d2e9 10%, #4079bb 80%);
         border-radius: 15px;
       }
       .inputlist_head {
@@ -84,8 +80,7 @@
         background: linear-gradient(
           to left,
           #35649a 20%,
-          #4079bb 80%
-          /* #bfd8f6 80% */
+          #4079bb 80% /* #bfd8f6 80% */
         );
         border-radius: 15px;
       }
@@ -133,131 +128,205 @@
   </head>
   <body>
     <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">TaskApp</span>
-            <ul class="nav">
-                <!-- <li class="nav-item">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">TaskApp</span>
+        <ul class="nav">
+          <!-- <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li> -->
-                <li class="nav-item">
-                  <a class="nav-link disabled">{{request.user}}</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Logout</a>
-                </li>
-              </ul>
-        </div>
+          <li class="nav-item">
+            <a class="nav-link disabled">{{request.user}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Logout</a>
+          </li>
+        </ul>
+      </div>
     </nav>
     <form action="" method="POST">
-        {% csrf_token %}
-        <div class="inputlist_head">
-            <div class="input-group mb-3">
-                <input
-                    name="title"
-                    type="text"
-                    id="title"
-                    class="form-control"
-                    placeholder="Add new list todo"
-                    required
-                />
-                <div class="input-group-append">
-                <button name="addTask" class="btn btn-primary" type="submit">
-                    +
-                </button>
-                </div>
-            </div>
-            <div class="row">
-                <label for="date" style="color: #fff;">Due Date</label>
-                <div class="col">
-                    <div class="input-group date" id="datetimepickerDue" data-td-target-input='nearest' data-td-target-toggle='nearest'>
-                        <input name="duedate" type="text" id='datetimepickerInput' class="form-control" placeholder="Select Date and Time" data-td-target='#datetimepickerDue'>
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-dark px-3" data-td-target='#settingOptions' data-td-toggle='datetimepicker'>
-                                <i class="bi bi-calendar-event-fill" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                        <script type="text/javascript" wfd-invisible="true">
-                            new tempusDominus.TempusDominus(document.getElementById("datetimepickerDue"), {
-                              display: {
-                                icons: {
-                                  time: "bi bi-clock",
-                                  date: "bi bi-calendar",
-                                  up: "bi bi-arrow-up",
-                                  down: "bi bi-arrow-down",
-                                  previous: "bi bi-chevron-left",
-                                  next: "bi bi-chevron-right",
-                                  today: "bi bi-calendar-check",
-                                  clear: "bi bi-trash",
-                                  close: "bi bi-x",
-                                },
-                                buttons: {
-                                  today: true,
-                                  clear: true,
-                                  close: true,
-                                },
-                              },
-                            });
-                          </script>
-                    </div>
-                </div>
-            </div>
+      {% csrf_token %}
+      <div class="inputlist_head">
+        <div class="input-group mb-3">
+          <input
+            name="title"
+            type="text"
+            id="title"
+            class="form-control"
+            placeholder="Add new list todo"
+            required
+          />
+          <div class="input-group-append">
+            <button name="addTask" class="btn btn-primary" type="submit">
+              +
+            </button>
+          </div>
         </div>
+        <div class="row">
+          <label for="date" style="color: #fff">Due Date</label>
+          <div class="col">
+            <div
+              class="input-group date"
+              id="datetimepickerDue"
+              data-td-target-input="nearest"
+              data-td-target-toggle="nearest"
+            >
+              <input
+                name="duedate"
+                type="text"
+                id="datetimepickerInput"
+                class="form-control"
+                placeholder="Select Date and Time"
+                data-td-target="#datetimepickerDue"
+              />
+              <div class="input-group-append">
+                <button
+                  type="button"
+                  class="btn btn-dark px-3"
+                  data-td-target="#settingOptions"
+                  data-td-toggle="datetimepicker"
+                >
+                  <i class="bi bi-calendar-event-fill" aria-hidden="true"></i>
+                </button>
+              </div>
+              <script type="text/javascript" wfd-invisible="true">
+                new tempusDominus.TempusDominus(
+                  document.getElementById("datetimepickerDue"),
+                  {
+                    display: {
+                      icons: {
+                        time: "bi bi-clock",
+                        date: "bi bi-calendar",
+                        up: "bi bi-arrow-up",
+                        down: "bi bi-arrow-down",
+                        previous: "bi bi-chevron-left",
+                        next: "bi bi-chevron-right",
+                        today: "bi bi-calendar-check",
+                        clear: "bi bi-trash",
+                        close: "bi bi-x",
+                      },
+                      buttons: {
+                        today: true,
+                        clear: true,
+                        close: true,
+                      },
+                    },
+                  }
+                );
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
     <div class="todo-list">
       <header>
         <h1>ToDo List</h1>
       </header>
       <nav>
-        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">My Task</a>
-            <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Others</a>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button
+            class="nav-link active"
+            id="nav-home-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#nav-home"
+            type="button"
+            role="tab"
+            aria-controls="nav-home"
+            aria-selected="true"
+          >
+            My Task
+          </button>
+          <button
+            class="nav-link"
+            id="nav-profile-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#nav-profile"
+            type="button"
+            role="tab"
+            aria-controls="nav-profile"
+            aria-selected="false"
+          >
+            Others
+          </button>
         </div>
-    </nav>
-    <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <form action="" method="POST">
-                {% csrf_token %}
-                <ul class="List">
-                  {% for task in tasks %}
-                  <!-- django template lang - for loop -->
-                  <li class="todo">
-                    <div class="input-group-text">
-                      <input
-                        name="checkedbox"
-                        class="form-check-input mt-0"
-                        type="checkbox"
-                        id="{{ task.id }}"
-                      />
-                      <label class="form-check-label"> {{ task.title }} </label>
-                      <button
-                        name="deleteTask"
-                        type="submit"
-                        class="btn btn-danger"
-                        value="{{ task.id }}"
-                      >
-                        delete
-                      </button>
-                    </div>
-                  </li>
-                  {% endfor %}
-                </ul>
-              </form>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <div
+          class="tab-pane fade show active"
+          id="nav-home"
+          role="tabpanel"
+          aria-labelledby="nav-home-tab"
+        >
+          <form action="" method="POST">
+            {% csrf_token %}
+            <ul class="List">
+              {% for task in tasks %}
+              <!-- django template lang - for loop -->
+              <li class="todo">
+                <div class="input-group-text">
+                  <input
+                    name="checkedbox"
+                    class="form-check-input mt-0"
+                    type="checkbox"
+                    id="{{ task.id }}"
+                  />
+                  <label class="form-check-label"> {{ task.title }} </label>
+                  <button
+                    name="deleteTask"
+                    type="submit"
+                    class="btn btn-danger"
+                    value="{{ task.id }}"
+                  >
+                    delete
+                  </button>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </form>
+        </div>
 
+        <div
+          class="tab-pane fade"
+          id="nav-profile"
+          role="tabpanel"
+          aria-labelledby="nav-profile-tab"
+        >
+          <form action="" method="POST">
+            {% csrf_token %}
+            <ul class="List">
+              {% for task in tasks %}
+              <!-- django template lang - for loop -->
+              <li class="todo">
+                <div class="input-group-text">
+                  <input
+                    name="checkedbox"
+                    class="form-check-input mt-0"
+                    type="checkbox"
+                    id="{{ task.id }}"
+                  />
+                  <label class="form-check-label"> {{ task.title }} </label>
+                  <button
+                    name="deleteTask"
+                    type="submit"
+                    class="btn btn-danger"
+                    value="{{ task.id }}"
+                  >
+                    delete
+                  </button>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </form>
         </div>
-        <div class="tab-pane fade " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
-        
       </div>
     </div>
-      
- 
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
-      $('#myTab a').on('click', function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-      })
     ></script>
   </body>
 </html>
