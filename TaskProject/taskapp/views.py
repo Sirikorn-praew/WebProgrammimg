@@ -67,31 +67,43 @@ def taskView(request):
     print(request.POST)
     print(request.user.id)
     # tasks = Task.objects.all()
-    users = User.objects.all()
-    tasks = Task.objects.filter(user=request.user.id) 
+    users = User.objects.all().exclude(id=request.user.id)
+    tasks = Task.objects.filter(user=request.user.id)
+    tasks_inv =  Task.objects.filter(involved=request.user.id)
+    # tasks_inv.inv
+    print(tasks_inv)
     if request.method == "POST":
         print(request.POST)
         if "checkbox" in request.POST:
             checkbox = request.POST["checkbox"]
             task = Task.objects.get(id=int(taskID))
+            task.checkbox = checkbox
+            task.save()
             # Task.objects.values
             print(checkbox)
             return HttpResponseRedirect('/taskapp/')
             # task.checkbox
         if "addTask" in request.POST:
             user = request.user
+            print(user, type(user))
             title = request.POST["title"]
             duedate = parse(request.POST["duedate"])
-            print(duedate, type(duedate))
-            task = Task(title=title, duedate=duedate, user=user) #duedate=duedate
+            list_involved = request.POST.getlist("involved") #request.POST["involved"]
+            # print(list_involved, type(list_involved))
+            # involved = User.objects.filter(username__in=list_involved) #.values("id")
+            # print(involved, type(involved))
+            task = Task(title=title, duedate=duedate, user=user) #, involved=involved
             task.save()
+            print("b e")
+            for id in list_involved:
+                task.involved.add(id)
             return HttpResponseRedirect('/taskapp/')
         if "deleteTask" in request.POST:
             taskID = request.POST["deleteTask"]
             task = Task.objects.get(id=int(taskID))
             task.delete()
             return HttpResponseRedirect('/taskapp/')
-    return render(request, 'Todo-list_edit.html', {"tasks":tasks, "users": users})
+    return render(request, 'taskpage.html', {"tasks":tasks, "tasks_inv":tasks_inv, "users": users})
 
 def log_user_out(request):
     # Log user out

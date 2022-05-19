@@ -183,7 +183,7 @@
                 </button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin-bottom: 10px;">
                 <label for="date" style="color: #fff;">Due Date</label>
                 <div class="col">
                     <div class="input-group date" id="datetimepickerDue" data-td-target-input='nearest' data-td-target-toggle='nearest'>
@@ -221,10 +221,10 @@
             <div class="row">
               <label style="color: #fff;">Involved</label>
               <div class="input-group mb-2">
-                <select class="custom-select">
+                <select name="involved" class="custom-select" multiple>
                   <option selected>select members</option>
                   {% for user in users %}
-                  <option value={{user}}>{{ user }}</option>
+                  <option value={{user.id}}>{{ user }}</option>
                   {% endfor %}
                   <!-- <option value="1">One</option>
                   <option value="2">Two</option>
